@@ -7,38 +7,59 @@
     <section id="registrarPersona" class="form-container">
       <h2 class="title_persona">Registrar Persona</h2>
       <form @submit.prevent="registrarPersona">
-        <input
-          type="text"
-          v-model="nombrePersona"
-          placeholder="Nombre Completo"
-          required
-        />
-        <input
-          type="text"
-          v-model="telefonoPersona"
-          placeholder="Teléfono"
-          required
-        />
-        <input
-          type="text"
-          v-model="direccionPersona"
-          placeholder="Dirección"
-          required
-        />
-        <input
-          type="email"
-          v-model="correoPersona"
-          placeholder="Correo Electrónico"
-          required
-        />
-        <label for="fechaNacimientoPersona">Fecha de Nacimiento:</label>
-        <input
-          type="date"
-          v-model="fechaNacimientoPersona"
-          required
-        />
-        <br />
-        <button type="submit">Registrar</button>
+        <div class="input-group">
+          <input
+            type="text"
+            v-model="nombrePersona"
+            class="input-field"
+            placeholder="Nombre Completo"
+            required
+          />
+        </div>
+
+        <div class="input-group">
+          <input
+            type="text"
+            v-model="telefonoPersona"
+            class="input-field"
+            placeholder="Teléfono"
+            required
+          />
+        </div>
+
+        <div class="input-group">
+          <input
+            type="text"
+            v-model="direccionPersona"
+            class="input-field"
+            placeholder="Dirección"
+            required
+          />
+        </div>
+
+        <div class="input-group">
+          <input
+            type="email"
+            v-model="correoPersona"
+            class="input-field"
+            placeholder="Correo Electrónico"
+            required
+          />
+        </div>
+
+        <div class="input-group">
+          <label for="fechaNacimientoPersona">Fecha de Nacimiento:</label>
+          <input
+            type="date"
+            v-model="fechaNacimientoPersona"
+            class="input-field"
+            required
+          />
+        </div>
+
+        <div class="button-group">
+          <button type="submit">Registrar</button>
+        </div>
       </form>
     </section>
   </div>
@@ -88,49 +109,65 @@ export default defineComponent({
 
 <style scoped>
 .dashboard-container {
-  display: flex;  /* Usamos flexbox para la disposición lado a lado */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 1px;
 }
 
 .form-container {
+  width: 100%;
   max-width: 600px;
-  margin-left: 270px; /* Ajuste para que el formulario no se sobreponga al menú lateral */
   padding: 20px;
   background-color: #f9f9f9;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  flex-grow: 1;  /* Esto asegura que el formulario ocupe el espacio restante */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
 }
 
 .title_persona {
+  text-align: center;
   font-size: 24px;
-  font-weight: bold;
+  margin-bottom: 20px;
 }
 
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+.input-group {
+  margin-bottom: 15px;
 }
 
-input,
-button {
+.input-group input,
+.input-group select,
+.input-group textarea {
+  width: 100%;
   padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
   font-size: 16px;
 }
 
+.input-group label {
+  font-size: 16px;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+}
+
 button {
-  cursor: pointer;
+  padding: 10px 20px;
   background-color: #4CAF50;
   color: white;
   border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
 }
 
 button:hover {
   background-color: #45a049;
-}
-
-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
 }
 </style>

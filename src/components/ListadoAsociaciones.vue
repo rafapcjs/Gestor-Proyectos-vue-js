@@ -1,0 +1,111 @@
+<script setup lang="ts">
+import DashBoard from '@/views/DashBoard.vue';
+</script>
+
+<template>
+          <DashBoard></DashBoard>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th colspan="5">Listado de Asociaciones</th>
+          </tr>
+          <tr>
+            <th>ID</th>
+            <th>Tipo</th>
+            <th>Asociación</th>
+            <th>Detalles</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Gremial</td>
+            <td>Asociación A</td>
+            <td>Detalles de la Asociación A</td>
+            <td>
+              <button>Editar</button>
+              <button>Eliminar</button>
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Cultural</td>
+            <td>Asociación B</td>
+            <td>Detalles de la Asociación B</td>
+            <td>
+              <button>Editar</button>
+              <button>Eliminar</button>
+            </td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Deportiva</td>
+            <td>Asociación C</td>
+            <td>Detalles de la Asociación C</td>
+            <td>
+              <button>Editar</button>
+              <button>Eliminar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </template>
+  
+  <style scoped>
+  /* Contenedor de la tabla centrado en la pantalla */
+  .table-container
+ {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  width: 80vw;
+  height:-50vh;
+
+}
+  
+  /* Estilos de la tabla */
+  table {
+    width: 70%; /* Define el ancho de la tabla (ajustar según sea necesario) */
+    border-collapse: collapse;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Agrega una sombra ligera para mejorar la apariencia */
+    background-color: #fff; /* Fondo blanco para la tabla */
+  }
+  
+  th, td {
+    border: 1px solid #ddd; /* Borde de las celdas */
+    padding: 12px 15px; /* Espaciado dentro de las celdas */
+    text-align: left;
+  }
+  
+  th {
+    background-color: #4CAF50; /* Color de fondo para los encabezados */
+    color: white; /* Texto blanco en los encabezados */
+  }
+  
+  button {
+    padding: 6px 12px;
+    margin: 0 5px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  button:first-of-type {
+    background-color: #2196F3; /* Azul para el botón de Editar */
+  }
+  
+  button:last-of-type {
+    background-color: #f44336; /* Rojo para el botón de Eliminar */
+  }
+  
+  button:hover {
+    opacity: 0.8; /* Efecto de opacidad al pasar el mouse sobre los botones */
+  }
+  </style>
+  

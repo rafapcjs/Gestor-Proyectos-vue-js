@@ -6,6 +6,11 @@
           <li><router-link to="/crear-proyecto">Crear Proyecto</router-link></li>
           <li><router-link to="/crear-asociacion">Crear Asociación</router-link></li>
           <li><router-link to="/crear-persona">Crear Persona</router-link></li>
+          <li><router-link to="/listar-persona">Listado de persona</router-link></li>
+          <li><router-link to="/listar-proyecto">Listado de proyectos</router-link></li>
+          <li><router-link to="/listar-asociacion">Listado de Asociación</router-link></li>
+
+          
         </ul>
       </nav>
   

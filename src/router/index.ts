@@ -1,6 +1,9 @@
 import CrearAsociacion from '@/components/CrearAsociacion.vue';
 import CrearPersona from '@/components/CrearPersona.vue';
 import CrearProyecto from '@/components/CrearProyecto.vue';
+import ListadoAsociaciones from '@/components/ListadoAsociaciones.vue';
+import ListadoPersonas from '@/components/ListadoPersonas.vue';
+import ListadoProyectos from '@/components/ListadoProyectos.vue';
 import DashBoard from '@/views/DashBoard.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 
@@ -15,6 +18,21 @@ const router = createRouter({
       path: '/crear-proyecto', // Ruta para crear un proyecto
       name: 'CrearProyecto',
       component: CrearProyecto, // Componente para crear un proyecto
+    },
+    {
+      path: '/listar-asociacion',
+      name: 'ListadoAsociaciones',
+      component: ListadoAsociaciones,  // Componente que se renderiza en la ruta raíz
+    },
+    {
+      path: '/listar-proyecto',
+      name: 'ListadoProyectos',
+      component: ListadoProyectos,
+    },
+    {
+      path: '/listar-persona',
+      name: 'ListadoPersonas',
+      component: ListadoPersonas,
     },
     {
       path: '/',
