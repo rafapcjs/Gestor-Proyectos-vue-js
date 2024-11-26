@@ -1,104 +1,73 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+import SearchBar from '@/components/ui/SearchBar.vue'
 import DashBoard from '@/views/DashBoard.vue';
+
+const searchQuery = ref('')
+const filteredData = ref([
+  { id: 1, tipo: 'Admin', nombre: 'Juan Pérez', detalles: 'Administrador del sistema' },
+  { id: 2, tipo: 'Usuario', nombre: 'María López', detalles: 'Usuario regular' },
+  { id: 3, tipo: 'Invitado', nombre: 'Carlos Gómez', detalles: 'Invitado temporal' },
+])
+
+// Filtra los datos según el término de búsqueda
+const filterData = (query: string) => {
+  return filteredData.value.filter((persona) => {
+    return (
+      persona.nombre.toLowerCase().includes(query.toLowerCase()) ||
+      persona.tipo.toLowerCase().includes(query.toLowerCase())
+    )
+  })
+}
 </script>
 
 <template>
-        <DashBoard></DashBoard>
+  <DashBoard></DashBoard>
 
-    
-    <div class="table-container">
-      <table>
+  <!-- Barra de búsqueda -->
+  <SearchBar
+    v-model="searchQuery"
+    @search="filterData(searchQuery)"
+    placeholder="Buscar por id"
+  />
+
+  <!-- Contenedor con mayor centrado y menor ancho para la tabla -->
+  <div class="flex justify-center items-center w-full py-12">
+    <div class="overflow-x-auto shadow-lg rounded-lg w-3/5">
+      <table class="table-auto w-full bg-white border border-gray-200 rounded-lg">
         <thead>
-          <tr>
-            <th colspan="5">Listado de Personas</th>
+          <tr class="bg-green-600 text-white">
+            <th class="text-center py-4 text-white bg-green-500" colspan="5">
+              Listado de Personas
+            </th>
           </tr>
-          <tr>
-            <th>ID</th>
-            <th>Tipo</th>
-            <th>Nombre</th>
-            <th>Detalles</th>
-            <th>Acciones</th>
+          <tr class="bg-gray-100">
+            <th class="px-4 py-2 border-b border-gray-200 text-left font-medium">ID</th>
+            <th class="px-4 py-2 border-b border-gray-200 text-left font-medium">Tipo</th>
+            <th class="px-4 py-2 border-b border-gray-200 text-left font-medium">Nombre</th>
+            <th class="px-4 py-2 border-b border-gray-200 text-left font-medium">Detalles</th>
+            <th class="px-4 py-2 border-b border-gray-200 text-left font-medium">Acciones</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>Admin</td>
-            <td>Juan Pérez</td>
-            <td>Administrador del sistema</td>
-            <td>
-              <button>Editar</button>
-              <button>Eliminar</button>
-            </td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Usuario</td>
-            <td>María López</td>
-            <td>Usuario regular</td>
-            <td>
-              <button>Editar</button>
-              <button>Eliminar</button>
-            </td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Invitado</td>
-            <td>Carlos Gómez</td>
-            <td>Invitado temporal</td>
-            <td>
-              <button>Editar</button>
-              <button>Eliminar</button>
+          <tr v-for="persona in filterData(searchQuery)" :key="persona.id" class="hover:bg-gray-50">
+            <td class="px-4 py-2 border-b">{{ persona.id }}</td>
+            <td class="px-4 py-2 border-b">{{ persona.tipo }}</td>
+            <td class="px-4 py-2 border-b">{{ persona.nombre }}</td>
+            <td class="px-4 py-2 border-b">{{ persona.detalles }}</td>
+            <td class="px-4 py-2 border-b">
+              <button class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
+                Editar
+              </button>
+              <button
+                class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition ml-2"
+              >
+                Eliminar
+              </button>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
-  </template>
-  
-  <style scoped>
-  /* Contenedor de la tabla centrado en la pantalla */
- .table-container
- {
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  width: 80vw;
-  height:-50vh;
-
-}
-  
-  th, td {
-    border: 1px solid #ddd; /* Borde de las celdas */
-    padding: 12px 15px; /* Espaciado dentro de las celdas */
-    text-align: left;
-  }
-  
-  th {
-    background-color: #4CAF50; /* Color de fondo para los encabezados */
-    color: white; /* Texto blanco en los encabezados */
-  }
-  
-  button {
-    padding: 6px 12px;
-    margin: 0 5px;
-    border: none;
-    color: white;
-    cursor: pointer;
-    border-radius: 4px;
-  }
-  
-  button:first-of-type {
-    background-color: #2196F3; /* Azul para el botón de Editar */
-  }
-  
-  button:last-of-type {
-    background-color: #f44336; /* Rojo para el botón de Eliminar */
-  }
-  
-  button:hover {
-    opacity: 0.8; /* Efecto de opacidad al pasar el mouse sobre los botones */
-  }
-  </style>
-  
+  </div>
+</template>

@@ -1,74 +1,30 @@
 <template>
-    <div class="dashboard-container">
-      <!-- Barra de navegación lateral a la izquierda -->
-      <nav class="sidebar">
-        <ul>
-          <li><router-link to="/crear-proyecto">Crear Proyecto</router-link></li>
-          <li><router-link to="/crear-asociacion">Crear Asociación</router-link></li>
-          <li><router-link to="/crear-persona">Crear Persona</router-link></li>
-          <li><router-link to="/listar-persona">Listado de persona</router-link></li>
-          <li><router-link to="/listar-proyecto">Listado de proyectos</router-link></li>
-          <li><router-link to="/listar-asociacion">Listado de Asociación</router-link></li>
-
-          
-        </ul>
-      </nav>
+  <div class="flex">
+    <!-- Barra de navegación lateral a la izquierda -->
+    <nav class="w-64 h-screen bg-gray-800 text-white p-6 fixed top-0 left-0 z-10">
+      <ul>
+        <li><router-link to="/crear-proyecto" class="block py-2 text-lg hover:text-blue-500">Crear Proyecto</router-link></li>
+        <li><router-link to="/crear-asociacion" class="block py-2 text-lg hover:text-blue-500">Crear Asociación</router-link></li>
+        <li><router-link to="/crear-persona" class="block py-2 text-lg hover:text-blue-500">Crear Persona</router-link></li>
+        <li><router-link to="/listar-persona" class="block py-2 text-lg hover:text-blue-500">Listado de persona</router-link></li>
+        <li><router-link to="/listar-proyecto" class="block py-2 text-lg hover:text-blue-500">Listado de proyectos</router-link></li>
+        <li><router-link to="/listar-asociacion" class="block py-2 text-lg hover:text-blue-500">Listado de Asociación</router-link></li>
+      </ul>
+    </nav>
   
-      <!-- Contenido principal del Dashboard -->
-      <div class="content">
-        <router-view></router-view> <!-- Muestra el componente según la ruta seleccionada -->
-      </div>
+    <!-- Contenido principal del Dashboard -->
+    <div class="ml-64 p-6 flex-grow">
+      <router-view></router-view> <!-- Muestra el componente según la ruta seleccionada -->
     </div>
-  </template>
-  
-  <script lang="ts">
-  export default {
-    name: 'DashBoard',
-  };
-  </script>
-  
-  <style scoped>
-  .dashboard-container {
-    display: flex;
-    justify-content: flex-start;
-  }
-  
-  .sidebar {
-    width: 250px;
-    height: 100vh;
-    background-color: #333;
-    color: white;
-    padding: 20px;
-    position: fixed;
-    left: 0;  /* Mover la barra de navegación a la izquierda */
-    top: 0;
-    z-index: 10;
-  }
-  
-  .sidebar ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .sidebar li {
-    margin: 15px 0;
-  }
-  
-  .sidebar a {
-    color: white;
-    text-decoration: none;
-    font-size: 18px;
-    transition: color 0.3s ease;
-  }
-  
-  .sidebar a:hover {
-    color: #007bff;
-  }
-  
-  .content {
-    margin-left: 270px; /* Ajustar según el ancho de la barra lateral */
-    padding: 20px;
-    flex-grow: 1;
-  }
-  </style>
-  
+  </div>
+</template>
+
+<script lang="ts">
+export default {
+  name: 'DashBoard',
+};
+</script>
+
+<style scoped>
+/* Estilos adicionales si es necesario */
+</style>

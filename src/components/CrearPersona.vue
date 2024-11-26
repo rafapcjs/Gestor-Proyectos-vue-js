@@ -1,64 +1,75 @@
 <template>
-  <div class="dashboard-container">
+  <div class="flex flex-col items-center justify-start py-2">
     <!-- Dashboard a la izquierda -->
     <DashBoard></DashBoard>
 
     <!-- Sección para registrar persona -->
-    <section id="registrarPersona" class="form-container">
-      <h2 class="title_persona">Registrar Persona</h2>
-      <form @submit.prevent="registrarPersona">
-        <div class="input-group">
+    <section id="registrarPersona" class="w-full max-w-lg p-6 bg-gray-100 rounded-lg shadow-md mt-4">
+      <h2 class="text-2xl font-bold text-center mb-6 text-gray-800">Registrar Persona</h2>
+      <form @submit.prevent="registrarPersona" class="space-y-4">
+        <!-- Nombre -->
+        <div>
           <input
             type="text"
             v-model="nombrePersona"
-            class="input-field"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
             placeholder="Nombre Completo"
             required
           />
         </div>
 
-        <div class="input-group">
+        <!-- Teléfono -->
+        <div>
           <input
             type="text"
             v-model="telefonoPersona"
-            class="input-field"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
             placeholder="Teléfono"
             required
           />
         </div>
 
-        <div class="input-group">
+        <!-- Dirección -->
+        <div>
           <input
             type="text"
             v-model="direccionPersona"
-            class="input-field"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
             placeholder="Dirección"
             required
           />
         </div>
 
-        <div class="input-group">
+        <!-- Correo -->
+        <div>
           <input
             type="email"
             v-model="correoPersona"
-            class="input-field"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
             placeholder="Correo Electrónico"
             required
           />
         </div>
 
-        <div class="input-group">
-          <label for="fechaNacimientoPersona">Fecha de Nacimiento:</label>
+        <!-- Fecha de Nacimiento -->
+        <div>
+          <label for="fechaNacimientoPersona" class="block text-gray-600 font-medium mb-1">Fecha de Nacimiento:</label>
           <input
             type="date"
             v-model="fechaNacimientoPersona"
-            class="input-field"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
           />
         </div>
 
-        <div class="button-group">
-          <button type="submit">Registrar</button>
+        <!-- Botón -->
+        <div class="flex justify-center">
+          <button
+            type="submit"
+            class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-300"
+          >
+            Registrar
+          </button>
         </div>
       </form>
     </section>
@@ -66,7 +77,7 @@
 </template>
 
 <script lang="ts">
-import DashBoard from '@/views/DashBoard.vue';  // Asegúrate de que el DashBoard está en la ubicación correcta
+import DashBoard from '@/views/DashBoard.vue';
 import { defineComponent, ref } from 'vue';
 
 export default defineComponent({
@@ -75,14 +86,12 @@ export default defineComponent({
     DashBoard,
   },
   setup() {
-    // Variables reactivas para el formulario
     const nombrePersona = ref<string>('');
     const telefonoPersona = ref<string>('');
     const direccionPersona = ref<string>('');
     const correoPersona = ref<string>('');
     const fechaNacimientoPersona = ref<string>('');
 
-    // Método para manejar el registro
     const registrarPersona = () => {
       const persona = {
         nombre: nombrePersona.value,
@@ -92,7 +101,7 @@ export default defineComponent({
         fechaNacimiento: fechaNacimientoPersona.value,
       };
 
-      console.log(persona); // En un caso real, aquí podrías enviar los datos al servidor
+      console.log(persona);
     };
 
     return {
@@ -106,68 +115,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style scoped>
-.dashboard-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 1px;
-}
-
-.form-container {
-  width: 100%;
-  max-width: 600px;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  margin-top: 10px;
-}
-
-.title_persona {
-  text-align: center;
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-
-.input-group {
-  margin-bottom: 15px;
-}
-
-.input-group input,
-.input-group select,
-.input-group textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-}
-
-.input-group label {
-  font-size: 16px;
-  margin-bottom: 5px;
-  display: block;
-}
-
-.button-group {
-  display: flex;
-  justify-content: center;
-}
-
-button {
-  padding: 10px 20px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-button:hover {
-  background-color: #45a049;
-}
-</style>

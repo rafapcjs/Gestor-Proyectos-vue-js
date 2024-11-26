@@ -1,108 +1,68 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+import SearchBar from '@/components/ui/SearchBar.vue'
 import DashBoard from '@/views/DashBoard.vue'
+
+const searchQuery = ref('')
+
+const filteredData = ref([
+  { id: 1, tipo: 'Interno', nombre: 'Proyecto A', detalles: 'Detalles del Proyecto A' },
+  { id: 2, tipo: 'Externo', nombre: 'Proyecto B', detalles: 'Detalles del Proyecto B' },
+  { id: 3, tipo: 'Interno', nombre: 'Proyecto C', detalles: 'Detalles del Proyecto C' },
+])
+
+// Filtra los proyectos según el término de búsqueda
+const filterData = (query: string) => {
+  return filteredData.value.filter((proyecto) => {
+    return (
+      proyecto.nombre.toLowerCase().includes(query.toLowerCase()) ||
+      proyecto.tipo.toLowerCase().includes(query.toLowerCase())
+    )
+  })
+}
 </script>
 
 <template>
   <DashBoard></DashBoard>
 
-  <div class="table-container">
-    <table>
-      <thead>
-        <tr>
-          <th colspan="5">Listado de Proyectos</th>
-        </tr>
-        <tr>
-          <th>ID</th>
-          <th>Tipo</th>
-          <th>Nombre</th>
-          <th>Detalles</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td>Interno</td>
-          <td>Proyecto A</td>
-          <td>Detalles del Proyecto A</td>
-          <td>
-            <button>Editar</button>
-            <button>Eliminar</button>
-          </td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>Externo</td>
-          <td>Proyecto B</td>
-          <td>Detalles del Proyecto B</td>
-          <td>
-            <button>Editar</button>
-            <button>Eliminar</button>
-          </td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>Interno</td>
-          <td>Proyecto C</td>
-          <td>Detalles del Proyecto C</td>
-          <td>
-            <button>Editar</button>
-            <button>Eliminar</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <!-- Barra de búsqueda -->
+  <SearchBar
+    v-model="searchQuery"
+    @search="filterData(searchQuery)"
+    placeholder="Buscar por id"
+  />
+
+  <!-- Contenedor de la tabla con clases de Tailwind -->
+  <div class="flex justify-center items-center w-full py-12">
+    <div class="overflow-x-auto shadow-lg rounded-lg w-3/5">
+      <table class="table-auto w-full bg-white border border-gray-200 rounded-lg">
+        <thead>
+          <tr class="bg-green-600 text-white">
+            <th class="text-center py-4 text-white bg-green-500" colspan="5">
+              Listado de Proyectos
+            </th>
+          </tr>
+          <tr class="bg-gray-100">
+            <th class="px-4 py-2 border-b border-gray-200 text-left font-medium">ID</th>
+            <th class="px-4 py-2 border-b border-gray-200 text-left font-medium">Tipo</th>
+            <th class="px-4 py-2 border-b border-gray-200 text-left font-medium">Nombre</th>
+            <th class="px-4 py-2 border-b border-gray-200 text-left font-medium">Detalles</th>
+            <th class="px-4 py-2 border-b border-gray-200 text-left font-medium">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="proyecto in filterData(searchQuery)" :key="proyecto.id" class="hover:bg-gray-50">
+            <td class="px-4 py-2 border-b">{{ proyecto.id }}</td>
+            <td class="px-4 py-2 border-b">{{ proyecto.tipo }}</td>
+            <td class="px-4 py-2 border-b">{{ proyecto.nombre }}</td>
+            <td class="px-4 py-2 border-b">{{ proyecto.detalles }}</td>
+            <td class="px-4 py-2 border-b">
+              <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">Editar</button>
+              <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition ml-2">Eliminar</button> <!-- Margen entre botones -->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
-
-<style scoped>
-/* Contenedor de la tabla centrado en la pantalla */
-.table-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 80vw;
-  height: -50vh;
-}
-
-/* Estilos de la tabla */
-table {
-  width: 70%; /* Define el ancho de la tabla (ajustar según sea necesario) */
-  border-collapse: collapse;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Agrega una sombra ligera para mejorar la apariencia */
-  background-color: #fff; /* Fondo blanco para la tabla */
-}
-
-th,
-td {
-  border: 1px solid #ddd; /* Borde de las celdas */
-  padding: 12px 15px; /* Espaciado dentro de las celdas */
-  text-align: left;
-}
-
-th {
-  background-color: #4caf50; /* Color de fondo para los encabezados */
-  color: white; /* Texto blanco en los encabezados */
-}
-
-button {
-  padding: 6px 12px;
-  margin: 0 5px;
-  border: none;
-  color: white;
-  cursor: pointer;
-  border-radius: 4px;
-}
-
-button:first-of-type {
-  background-color: #2196f3; /* Azul para el botón de Editar */
-}
-
-button:last-of-type {
-  background-color: #f44336; /* Rojo para el botón de Eliminar */
-}
-
-button:hover {
-  opacity: 0.8; /* Efecto de opacidad al pasar el mouse sobre los botones */
-}
-</style>
