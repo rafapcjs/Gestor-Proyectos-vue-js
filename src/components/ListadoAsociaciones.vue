@@ -1,68 +1,87 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
 import DashBoard from '@/views/DashBoard.vue';
-import SearchBar from './ui/SearchBar.vue';
+import { usePersonaStore } from '@/stores/personaStore';
+import { useProyectoStore } from '@/stores/proyectoStore';
+ import type { Asociacion } from '@/models/Asosiacion';
+import { useAsociacionStore } from '@/stores/asosiacionStore';
 
-// Datos de ejemplo para las asociaciones
-const asociaciones = ref([
-  { id: 1, tipo: 'Gremial', nombre: 'Asociación A', detalles: 'Detalles de la Asociación A' },
-  { id: 2, tipo: 'Cultural', nombre: 'Asociación B', detalles: 'Detalles de la Asociación B' },
-  { id: 3, tipo: 'Deportiva', nombre: 'Asociación C', detalles: 'Detalles de la Asociación C' },
-]);
+const asociacionStore = useAsociacionStore();
+const personaStore = usePersonaStore();
+const proyectoStore = useProyectoStore();
+const router = useRouter();
 
-// Término de búsqueda
+const asociaciones = asociacionStore.asociaciones;
 const searchQuery = ref('');
 
-// Computed para filtrar los datos según el término de búsqueda
 const filteredAsociaciones = computed(() => {
-  const query = searchQuery.value.toLowerCase();
-  return asociaciones.value.filter((asociacion) => {
-    return (
-      asociacion.nombre.toLowerCase().includes(query) ||
-      asociacion.tipo.toLowerCase().includes(query)
-    );
-  });
+  if (!searchQuery.value) {
+    return asociaciones;
+  }
+  return asociaciones.filter(asociacion => asociacion.id.toString().includes(searchQuery.value));
 });
+
+const getPersonaName = (personaId: number) => {
+  const persona = personaStore.personas.find(p => p.id === personaId);
+  return persona ? persona.nombrePersona : 'Desconocido';
+};
+
+const getProyectoName = (proyectoId: number) => {
+  const proyecto = proyectoStore.proyectos.find(p => p.id === proyectoId);
+  return proyecto ? proyecto.nombre : 'Desconocido';
+};
+
+ 
+const handleEdit = (asociacion: Asociacion): void => {
+  asociacionStore.selectAsociacion(asociacion);
+  router.push('/crear-asociacion');
+};
+
+const handleDelete = (id: number) => {
+  asociacionStore.deleteAsociacion(id);
+  asociacionStore.clearSelectedAsociacion();
+};
 </script>
 
 <template>
-  <DashBoard></DashBoard>
-
-  <SearchBar v-model="searchQuery" @search="searchQuery(searchQuery)" placeholder="Buscar por id" />
-
-
-  <!-- Tabla de asociaciones -->
-  <div class="flex justify-center items-center w-full py-12">
-    <table class="w-[70%] border-collapse shadow-lg bg-white">
-      <thead>
-        <tr>
-          <th colspan="5" class="text-center py-4 text-white bg-green-500">Listado de Asociaciones</th>
-        </tr>
-        <tr>
-          <th class="border border-gray-300 px-4 py-2">ID</th>
-          <th class="border border-gray-300 px-4 py-2">Tipo</th>
-          <th class="border border-gray-300 px-4 py-2">Asociación</th>
-          <th class="border border-gray-300 px-4 py-2">Detalles</th>
-          <th class="border border-gray-300 px-4 py-2">Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Se muestra el contenido filtrado según la búsqueda -->
-        <tr v-for="asociacion in filteredAsociaciones" :key="asociacion.id">
-          <td class="border border-gray-300 px-4 py-2">{{ asociacion.id }}</td>
-          <td class="border border-gray-300 px-4 py-2">{{ asociacion.tipo }}</td>
-          <td class="border border-gray-300 px-4 py-2">{{ asociacion.nombre }}</td>
-          <td class="border border-gray-300 px-4 py-2">{{ asociacion.detalles }}</td>
-          <td class="border border-gray-300 px-4 py-2">
-            <button class="bg-blue-500 text-white py-2 px-4 rounded hover:opacity-80">Editar</button>
-            <button class="bg-red-500 text-white py-2 px-4 rounded hover:opacity-80">Eliminar</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="flex flex-col items-center justify-start py-2">
+    <DashBoard></DashBoard>
+    <div class="w-full max-w-4xl p-6 bg-gray-100 rounded-lg shadow-md mt-4">
+      <h2 class="text-2xl font-bold text-center mb-6 text-gray-800">Listado de Asociaciones</h2>
+      <div class="mb-4">
+        <input
+          v-model="searchQuery"
+          type="text"
+          placeholder="Buscar por ID"
+          class="w-full p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300"
+        />
+      </div>
+      <table class="table-auto w-full bg-white border border-gray-200 rounded-lg">
+        <thead>
+          <tr class="bg-green-600 text-white">
+            <th class="px-4 py-2 border-b border-gray-200 text-left font-medium">ID</th>
+            <th class="px-4 py-2 border-b border-gray-200 text-left font-medium">Persona</th>
+            <th class="px-4 py-2 border-b border-gray-200 text-left font-medium">Proyecto</th>
+            <th class="px-4 py-2 border-b border-gray-200 text-left font-medium">Rol</th>
+            <th class="px-4 py-2 border-b border-gray-200 text-left font-medium">Responsabilidad</th>
+            <th class="px-4 py-2 border-b border-gray-200 text-left font-medium">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="asociacion in filteredAsociaciones" :key="asociacion.id" class="hover:bg-gray-50">
+            <td class="px-4 py-2 border-b">{{ asociacion.id }}</td>
+            <td class="px-4 py-2 border-b">{{ getPersonaName(asociacion.personaId) }}</td>
+            <td class="px-4 py-2 border-b">{{ getProyectoName(asociacion.proyectoId) }}</td>
+            <td class="px-4 py-2 border-b">{{ asociacion.rol }}</td>
+            <td class="px-4 py-2 border-b">{{ asociacion.responsabilidad }}</td>
+            <td class="px-4 py-2 border-b">
+              <button @click="handleEdit(asociacion)" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition">Editar</button>
+              <button @click="handleDelete(asociacion.id)" class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition ml-2">Eliminar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
-
-<style scoped>
-/* No custom CSS needed with Tailwind */
-</style>
